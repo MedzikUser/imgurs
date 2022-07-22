@@ -10,5 +10,5 @@ pub async fn image_info(client: ImgurClient, id: String) {
         .expect("send request to imfur api");
 
     // print image information from imgur
-    print_image_info(&info);
+    print_image_info(&info.data);
 }

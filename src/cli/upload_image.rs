@@ -35,7 +35,7 @@ pub async fn upload_image(client: ImgurClient, path: String) {
     }
 
     // print image information from imgur
-    print_image_info(&i);
+    print_image_info(&i.data);
 
     // send notification that the image has been uploaded
     notify!(Notification::new()

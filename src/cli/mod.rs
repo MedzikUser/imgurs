@@ -1,5 +1,6 @@
 mod parse;
 
+pub mod album_info;
 pub mod clipboard;
 pub mod credits;
 pub mod delete_image;
@@ -10,19 +11,19 @@ pub use parse::*;
 
 use chrono::{prelude::DateTime, Utc};
 use colored::Colorize;
-use imgurs::ImageInfo;
+use imgurs::ImageInfoData;
 use std::time::{Duration, UNIX_EPOCH};
 
 // print image information from imgur
-pub fn print_image_info(i: &ImageInfo) {
+pub fn print_image_info(i: &ImageInfoData) {
     // format image upload date
-    let d = UNIX_EPOCH + Duration::from_secs(i.data.datetime.try_into().unwrap());
+    let d = UNIX_EPOCH + Duration::from_secs(i.datetime.try_into().unwrap());
     let datetime = DateTime::<Utc>::from(d);
     let timestamp_str = datetime.format("%Y-%m-%d %H:%M:%S").to_string();
 
     // image title
-    if i.data.title != None {
-        let title = i.data.title.clone();
+    if i.title != None {
+        let title = i.title.clone();
 
         println!(
             "{} {}",
@@ -32,8 +33,8 @@ pub fn print_image_info(i: &ImageInfo) {
     }
 
     // image description
-    if i.data.description != None {
-        let desc = i.data.description.clone();
+    if i.description != None {
+        let desc = i.description.clone();
 
         println!(
             "{} {}",
@@ -43,8 +44,8 @@ pub fn print_image_info(i: &ImageInfo) {
     }
 
     // image deletehas
-    if i.data.deletehash != None {
-        let delhash = i.data.deletehash.clone();
+    if i.deletehash != None {
+        let delhash = i.deletehash.clone();
 
         println!(
             "{} {}",
@@ -53,31 +54,27 @@ pub fn print_image_info(i: &ImageInfo) {
         );
     }
 
-    println!("{} {}", "id".green(), i.data.id.magenta());
+    println!("{} {}", "id".green(), i.id.magenta());
     println!(
         "{} {} {}",
         "upload date".green(),
         timestamp_str.magenta(),
         "(UTC)".blue()
     );
-    println!("{} {}", "type".green(), i.data.img_type.magenta());
-    println!("{} {}", "width".green(), i.data.width.to_string().magenta());
-    println!(
-        "{} {}",
-        "height".green(),
-        i.data.height.to_string().magenta()
-    );
+    println!("{} {}", "type".green(), i.img_type.magenta());
+    println!("{} {}", "width".green(), i.width.to_string().magenta());
+    println!("{} {}", "height".green(), i.height.to_string().magenta());
     println!(
         "{} {} {}",
         "size".green(),
-        (i.data.size / 1000).to_string().magenta(),
+        (i.size / 1000).to_string().magenta(),
         "KB".blue()
     );
-    println!("{} {}", "views".green(), i.data.views.to_string().magenta());
+    println!("{} {}", "views".green(), i.views.to_string().magenta());
     println!(
         "{} {}",
         "bandwidth".green(),
-        i.data.bandwidth.to_string().magenta()
+        i.bandwidth.to_string().magenta()
     );
-    println!("{} {}", "link".green(), i.data.link.magenta());
+    println!("{} {}", "link".green(), i.link.magenta());
 }

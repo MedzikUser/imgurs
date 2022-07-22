@@ -1,9 +1,11 @@
+mod album_type;
 mod client;
 mod error;
 mod image_type;
 mod requests;
 mod send_api_request;
 
+pub use album_type::*;
 pub(crate) use client::api_url;
 pub use client::ImgurClient;
 pub use error::*;
@@ -96,5 +98,20 @@ impl ImgurClient {
     /// ```
     pub async fn image_info(&self, id: &str) -> Result<ImageInfo> {
         requests::get_image(self, id).await
+    }
+
+    /// Get album info from a Imgur
+    /// ```
+    /// use imgurs::ImgurClient;
+    ///
+    /// #[tokio::main]
+    /// async fn main() {
+    ///     let client = ImgurClient::new("3e3ce0d7ac14d56");
+    ///
+    ///     client.album_info("lFaGr1x").await.expect("delete album");
+    /// }
+    /// ```
+    pub async fn album_info(&self, id: &str) -> Result<AlbumInfo> {
+        requests::get_album(self, id).await
     }
 }
